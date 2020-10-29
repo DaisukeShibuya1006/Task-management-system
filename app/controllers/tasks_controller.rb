@@ -31,6 +31,11 @@ class TasksController < ApplicationController
     end
   end
 
+  def priority_sort
+    selection = params[:keyword]
+    @tasks = Task.sort(selection)
+  end
+
   def create
     @task = Task.new(task_params)
     if @task.save

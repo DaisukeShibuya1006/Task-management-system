@@ -16,4 +16,12 @@ class Task < ApplicationRecord
         low: 2
     }
 
+    def self.sort(selection)
+      case selection
+      when 'High'
+        return all.order('priority')
+      when 'low'
+        return all.order('priority DESC')  
+      end
+    end
 end
