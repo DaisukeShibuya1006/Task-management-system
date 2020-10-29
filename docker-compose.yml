@@ -26,7 +26,7 @@ services:
       - db
       - node
     working_dir: /var/src/app
-    command: /bin/sh -c "rm -f /var/src/app/tmp/pids/server.pid;bundle exec rails s -b 0.0.0.0"
+    command: /bin/sh -c "rm -f /var/src/app/tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails s -b 0.0.0.0"
     cap_add:
       - ALL  # Add all privilege
     container_name: app
