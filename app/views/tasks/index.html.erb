@@ -1,15 +1,11 @@
 <h1>Tasks list</h1>
 <%= link_to "登録", new_task_path %><br>
 
-<%= form_with url: search_title_path, method: :get, local: true do |f|%>
+<%= form_with url: search_title_status_path, method: :get, local: true do |f|%>
    <%= f.text_field :title %>
-   <%= f.submit :search %>
+   <%= f.select :status, options_for_select([["未着手","0"],["着手","1"],["完了","2"]])%>
+   <%= f.submit :search%>
 <% end %>
-
-<%= form_tag(search_status_path, method: :get) do |f|%>
-   <%= select_tag(:status, options_for_select([["未着手","0"],["着手","1"],["完了","2"]])) %>
-   <%= submit_tag "検索" %>
-<% end %><br>
 
 
 <%= form_with model: @task, url: priority_sort_path, method: :get, local: true do |f| %>

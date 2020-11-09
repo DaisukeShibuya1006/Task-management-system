@@ -15,17 +15,13 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end
 
-  def search_title
-    if params[:title].present?
-      @tasks = Task.where('title LIKE ?', "%#{params[:title]}%")
-    else
-      @tasks = Task.none
-    end
-  end
-
-  def search_status
-    if params[:status].present?
+  def search_title_status
+    if params[:title] and params[:status].present?
+      @tasks = Task.where(['title LIKE ? AND cast(status as text) LIKE ?', "%#{params[:title]}%","%#{params[:status]}%"])
+    elsif params[:title].present?
       @tasks = Task.where('cast(status as text) LIKE ?', "%#{params[:status]}%")
+    elsif params[:status].present?
+      @tasks = Task.where('title LIKE ?', "%#{params[:title]}%")
     else
       @tasks = Task.none
     end
