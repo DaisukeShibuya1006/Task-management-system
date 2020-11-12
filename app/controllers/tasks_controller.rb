@@ -1,6 +1,9 @@
 class TasksController < ApplicationController
+  include TasksHelper
+
   def index
     @tasks = Task.all
+    @tasks = Task.order(sort_column + ' ' + sort_direction)
   end
 
   def show

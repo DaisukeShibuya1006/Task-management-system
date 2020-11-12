@@ -7,11 +7,7 @@
    <%= f.submit :search%>
 <% end %>
 
-
-<%= form_with model: @task, url: priority_sort_path, method: :get, local: true do |f| %>
-   <%= f.select :keyword, [['高', 'High'], ['低', 'low']] %>
-   <%= f.submit '検索'%>
-<% end %>
+<%= sort_asc "priority"%><%= sort_desc "priority"%>
 
 
 <% @tasks.each do |task| %>
