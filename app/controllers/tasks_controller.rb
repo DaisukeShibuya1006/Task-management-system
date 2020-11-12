@@ -19,15 +19,15 @@ class TasksController < ApplicationController
   end
 
   def search_title_status
-    if params[:title] and params[:status].present?
-      @tasks = Task.where(['title LIKE ? AND cast(status as text) LIKE ?', "%#{params[:title]}%","%#{params[:status]}%"])
-    elsif params[:title].present?
-      @tasks = Task.where('cast(status as text) LIKE ?', "%#{params[:status]}%")
-    elsif params[:status].present?
-      @tasks = Task.where('title LIKE ?', "%#{params[:title]}%")
-    else
-      @tasks = Task.none
-    end
+    @tasks = if params[:title] && params[:status].present?
+               Task.where(['title LIKE ? AND cast(status as text) LIKE ?', "%#{params[:title]}%", "%#{params[:status]}%"])
+             elsif params[:title].present?
+               Task.where('cast(status as text) LIKE ?', "%#{params[:status]}%")
+             elsif params[:status].present?
+               Task.where('title LIKE ?', "%#{params[:title]}%")
+             else
+               Task.none
+             end
   end
 
   def priority_sort
