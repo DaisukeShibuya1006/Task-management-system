@@ -9,17 +9,9 @@ class Task < ApplicationRecord
   }
 
   enum priority: {
-    High: 0,
+    high: 0,
     middle: 1,
     low: 2
   }
 
-  def self.sort(selection)
-    case selection
-    when 'High'
-      all.order('priority')
-    when 'low'
-      all.order('priority DESC')
-    end
-  end
 end

@@ -1,9 +1,12 @@
 class TasksController < ApplicationController
-  include TasksHelper
-
   def index
-    @tasks = Task.all
-    @tasks = Task.order(sort_column + ' ' + sort_direction)
+    @tasks = params[:title].present? ? Task.where('title LIKE ?', "%#{params[:title]}%") : Task.all
+    if params[:status].present?
+      @tasks = @tasks.where('status::text LIKE ?', "%#{params[:status]}%")
+    elsif params[:status] == ""
+      @tasks.all
+    end
+    priority_sort(params[:keyword])
   end
 
   def show
@@ -16,23 +19,6 @@ class TasksController < ApplicationController
 
   def edit
     @task = Task.find(params[:id])
-  end
-
-  def search_title_status
-    @tasks = if params[:title] && params[:status].present?
-               Task.where(['title LIKE ? AND cast(status as text) LIKE ?', "%#{params[:title]}%", "%#{params[:status]}%"])
-             elsif params[:title].present?
-               Task.where('cast(status as text) LIKE ?', "%#{params[:status]}%")
-             elsif params[:status].present?
-               Task.where('title LIKE ?', "%#{params[:title]}%")
-             else
-               Task.none
-             end
-  end
-
-  def priority_sort
-    selection = params[:keyword]
-    @tasks = Task.sort(selection)
   end
 
   def create
@@ -71,5 +57,15 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :text, :deadline, :status, :priority)
+  end
+
+  def priority_sort(high_low)
+    if params[:keyword] == 'high'
+      @tasks = @tasks.order('priority')
+    elsif params[:keyword] == 'low'
+      @tasks = @tasks.order('priority DESC')
+    else
+      @tasks = @tasks.order('created_at DESC')
+    end
   end
 end

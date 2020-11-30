@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   root 'tasks#index'
-  get 'search_title_status' => 'tasks#search_title_status'
-  get 'priority_sort'=> 'tasks#priority_sort'
+  get 'index' => 'tasks#index'
   resources :tasks
 
 end
