@@ -1,4 +1,4 @@
 
-10000.times do |n|
-   Task.create(title: "test#{n+1}", status: rand(0..2))
+200.times do |n|
+   User.create(name: "testuser#{n+1}", email: "testuser#{n+1}@hoge.jp", password_digest: "testuser#{n+1}")
 end
