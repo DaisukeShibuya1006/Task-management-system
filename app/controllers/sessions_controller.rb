@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  protect_from_forgery with: :null_session
+
   skip_before_action :login_required
 
   def new; end
@@ -18,7 +20,7 @@ class SessionsController < ApplicationController
   def destroy
     reset_session
     flash[:success] = 'ログアウトしました'
-    redirect_to root_path
+    redirect_to login_path
   end
 
   private
