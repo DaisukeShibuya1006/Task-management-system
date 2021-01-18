@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :task do
-    title { 'Test tilte' }
-    text { 'Test text' }
+    title { 'Test_tilte' }
+    text { 'Test_text' }
+    user
   end
 end

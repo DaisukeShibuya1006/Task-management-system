@@ -1,24 +1,44 @@
 require 'rails_helper'
 
 RSpec.describe 'Sessions', type: :request do
-  describe 'GET /new' do
-    it 'returns http success' do
-      get '/sessions/new'
-      expect(response).to have_http_status(:success)
+  describe 'GET /login' do
+    context 'ログインページにアクセスすること' do
+      it 'returns http success status code' do
+        get '/login'
+        expect(response).to have_http_status '200'
+      end
+    end
+    context 'ログインページにアクセスできないこと' do
+      it 'returns a some type of error status code' do
+        get '/not_login'
+        expect(response).to have_http_status '404'
+      end
     end
   end
 
-  describe 'GET /create' do
-    it 'returns http success' do
-      get '/sessions/create'
-      expect(response).to have_http_status(:success)
+  describe 'ログイン機能' do
+    context 'ログイン成功' do
+      before do
+        @user = FactoryBot.build(:user)
+      end
+
+      it 'ログイン成功' do
+        post '/login', params: {session: {email: 'user_email@jp', password: 'user_password'}}
+        expect(response).to have_http_status '200'
+      end
+
+      it 'ログイン失敗' do
+        post '/login', params: {session: {email: '', password: ''}}
+        expect(response).to have_http_status '200'
+      end
     end
   end
 
-  describe 'GET /destroy' do
-    it 'returns http success' do
-      get '/sessions/destroy'
-      expect(response).to have_http_status(:success)
+  describe 'ログアウト機能'do
+    context 'ログアウト成功'
+    it 'ログアウト成功' do
+      delete '/logout'
+      expect(response).to have_http_status '302'
     end
   end
 end
