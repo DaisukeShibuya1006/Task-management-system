@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       redirect_to root_path
     else
       flash.now[:danger] = 'ログインに失敗しました。メールアドレスとパスワードを確認してください。'
-      render 'new', status: 400
+      render 'new', status: 401
     end
   end
 
