@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe 'Sessions', type: :request do
   describe 'GET /login' do
-    context 'ログインページにアクセスすること' do
+    context 'Accessing to login page' do
       it 'returns http success status code' do
         get '/login'
         expect(response).to have_http_status '200'
       end
     end
-    context 'ログインページにアクセスできないこと' do
+    context 'Cannot accesse to login page' do
       it 'returns a some type of error status code' do
         get '/not_login'
         expect(response).to have_http_status '404'
@@ -16,27 +16,26 @@ RSpec.describe 'Sessions', type: :request do
     end
   end
 
-  describe 'ログイン機能' do
-    context 'ログイン成功' do
+  describe 'Login function' do
+    context 'Login success' do
       before do
         @user = FactoryBot.build(:user)
       end
 
-      it 'ログイン成功' do
+      it 'Login success' do
         post '/login', params: {session: {email: 'user_email@jp', password: 'user_password'}}
         expect(response).to have_http_status '200'
       end
 
-      it 'ログイン失敗' do
+      it 'Login failure' do
         post '/login', params: {session: {email: '', password: ''}}
         expect(response).to have_http_status '200'
       end
     end
   end
 
-  describe 'ログアウト機能'do
-    context 'ログアウト成功'
-    it 'ログアウト成功' do
+  describe 'Logout function'do
+    it 'Logout success' do
       delete '/logout'
       expect(response).to have_http_status '302'
     end
