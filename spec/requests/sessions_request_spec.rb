@@ -16,25 +16,25 @@ RSpec.describe 'Sessions', type: :request do
     end
   end
 
-  describe 'Login function' do
-    context 'Login success' do
-      before do
-        @user = FactoryBot.build(:user)
-      end
-
+  describe 'POST /login' do
+    before do
+      @user = FactoryBot.create(:user)
+    end
+    context 'Correct input name and password' do
       it 'Login success' do
         post '/login', params: {session: {email: 'user_email@jp', password: 'user_password'}}
-        expect(response).to have_http_status '200'
+        expect(response).to have_http_status '302'
       end
-
+    end
+    context 'Incorrect input name and password' do
       it 'Login failure' do
         post '/login', params: {session: {email: '', password: ''}}
-        expect(response).to have_http_status '200'
+        expect(response).to have_http_status '400'
       end
     end
   end
 
-  describe 'Logout function'do
+  describe 'DELETE /logout'do
     it 'Logout success' do
       delete '/logout'
       expect(response).to have_http_status '302'
