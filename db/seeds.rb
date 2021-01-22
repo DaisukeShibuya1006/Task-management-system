@@ -1,6 +1,6 @@
 User.create!(name: "test_name1",
             email: "test_mail@jp",
-            password_digest: "test_password1")
+            password: "test_password1")
 
 
 10.times do |n|

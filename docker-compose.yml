@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   db:
     image: postgres:9.6-alpine
@@ -8,6 +8,7 @@ services:
     environment:
       POSTGRES_PASSWORD: pass
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C"
+      PGDATA: /var/lib/postgresql/data/pgdata
     container_name: db
   app:
     build:
@@ -15,7 +16,7 @@ services:
     volumes:
       - .:/var/src/app
     ports:
-      - '80:3000'
+      - "80:3000"
     environment:
       RAILS_ENV: development
       PG_DATABASE: postgres
@@ -28,7 +29,7 @@ services:
     working_dir: /var/src/app
     command: /bin/sh -c "rm -f /var/src/app/tmp/pids/server.pid;bundle exec rails s -b 0.0.0.0"
     cap_add:
-      - ALL  # Add all privilege
+      - ALL # Add all privilege
     container_name: app
     tty: true
     stdin_open: true
