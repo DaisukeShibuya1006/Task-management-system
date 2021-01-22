@@ -25,7 +25,7 @@ RSpec.describe 'Sessions', type: :request do
     context 'Correct input name and password' do
       it 'Login success' do
         post '/login', params: { session: { email: 'user_email@jp', password: 'user_password' } }
-        expect(response).to have_http_status '200'
+        expect(response).to have_http_status '302'
       end
     end
 
