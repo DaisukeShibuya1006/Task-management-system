@@ -18,7 +18,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.new(task_params)
     if @task.save
       flash[:success] = 'タスクを登録しました。'
       redirect_to tasks_path
@@ -59,7 +59,7 @@ class TasksController < ApplicationController
   # タスクをタイトルで検索する
   # @return[Object] タイトル検索の結果
   def title_search
-    @tasks = params[:title].present? ? Task.where('title LIKE ?', "%#{params[:title]}%") : Task.all
+    @tasks = params[:title].present? ? Task.where('title LIKE ?', "%#{params[:title]}%") : current_user.tasks
     @tasks = @tasks.page(params[:page]).per(5)
   end
 

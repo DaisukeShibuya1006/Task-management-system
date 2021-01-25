@@ -10,6 +10,12 @@
   </head>
 
   <body>
+    <div class="top">
+      <% if current_user %>
+        <%= link_to "タスク一覧", index_path %>
+        <%= link_to "ログアウト", logout_path, method: :delete, data: {confirm: "ログアウトしますか？"} %>
+      <% end %>
+    </div>
     <div class="flash_message text-center">
         <% flash.each do |message_type, message| %>
           <p class="alert alert-<%= message_type %>">
