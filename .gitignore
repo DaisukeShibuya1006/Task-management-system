@@ -29,4 +29,3 @@
 /data
 /doc/*
 .yardoc
-!/doc/.keep
