@@ -27,3 +27,6 @@
 /config/master.key
 
 /data
+/doc/*
+.yardoc
+!/doc/.keep
