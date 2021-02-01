@@ -1,4 +1,7 @@
 class Admin::UsersController < ApplicationController
+  protect_from_forgery
+  skip_before_action :login_required, only:[:new, :create]
+
   def index
     @users = User.includes(:tasks).all
   end
@@ -19,11 +22,12 @@ class Admin::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      session[:user_id] = @user.id
       flash[:success] = 'ユーザーを登録しました。'
       redirect_to admin_user_url(@user)
     else
       flash.now[:danger] = 'ユーザーを登録できませんでした。'
-      render 'new'
+      render 'new', status: 422
     end
   end
 
@@ -34,7 +38,7 @@ class Admin::UsersController < ApplicationController
       redirect_to admin_user_url(@user)
     else
       flash.now[:danger] = 'ユーザー情報を更新できませんでした。'
-      render 'edit'
+      render 'edit', status: 422
     end
   end
 
@@ -52,6 +56,6 @@ class Admin::UsersController < ApplicationController
   private
 
   def user_params
-      params.require(:user).permit(:name, :email, :admin, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :admin, :password, :password_confirmation)
   end
 end
