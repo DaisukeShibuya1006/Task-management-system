@@ -6,9 +6,9 @@ class ApplicationController < ActionController::Base
 
 
   # sessionに一致するユーザを返す
-  # @current_userがnilまたはfalseのとき、Userモデルのuser_idとsession[:user_id]を一致させる
-  # @return[User] ログイン中のユーザを返す
-  # @return[nil] 一致するユーザがいない場合
+  # @sessionにユーザがない場合や一致するUserがない場合はnilを返し、一致するユーザがあればUser情報を返す
+  # @return[User] ログイン中のユーザ
+  # @return[nil] 一致するユーザがいない場合はnilを返す
   private
 
   def current_user
