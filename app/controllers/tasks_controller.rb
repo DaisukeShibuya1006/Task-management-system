@@ -1,5 +1,11 @@
 class TasksController < ApplicationController
-  # title_search, status_search, tasks_sortメソッドを呼び出す
+  # title_searchでタスクをタイトルで検索する
+  # @return[Task] タイトル検索の結果
+  # status_searchでタスクをステータスで検索する
+  # @return[Task] ステータス検索の結果
+  # タスクを優先度でソートする
+  # 優先度が未選択なら、作成日時で降順させる
+  # @return[Task] 優先順位のソート結果
   def index
     title_search
     status_search
@@ -66,8 +72,12 @@ class TasksController < ApplicationController
 
   private
 
-  # 許可されたパラメータのみ通過させる
-  # @param[ActionController::Parameters] 許可されたパラメータのみ通過
+  # 許可されたカラムのみ通過させる
+  # @param title[ActionController::Parameters] 許可された'title'を通過
+  # @param text[ActionController::Parameters] 許可された'text'を通過
+  # @param deadline[ActionController::Parameters] 許可された'deadline'を通過
+  # @param status[ActionController::Parameters] 許可された'status'を通過
+  # @param priority[ActionController::Parameters] 許可された'priorty'を通過
   def task_params
     params.require(:task).permit(:title, :text, :deadline, :status, :priority)
   end
