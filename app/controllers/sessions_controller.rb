@@ -34,7 +34,8 @@ class SessionsController < ApplicationController
   private
 
   # 許可されたパラメータのみ通過させる
-  # @param[ActionController::Parameters] 許可されたパラメータのみ通過
+  # @param email[ActionController::Parameters] 許可されたパラメータ'email'を通過
+  # @param password[ActionController::Parameters] 許可されたパラメータ'password'を通過
   def session_params
     session = params.require(:session).permit(:email, :password)
   end
