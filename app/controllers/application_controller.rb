@@ -7,14 +7,13 @@ class ApplicationController < ActionController::Base
   private
 
   # sessionに一致するユーザを返す
-  # sessionにユーザがない場合や一致するUserがない場合はnilを返し、一致するユーザがあればUser情報を返す
-  # @return[User] ログイン中のユーザを返す
-  # @return[nil] 一致するユーザがいない場合はnilを返す
+  # sessionにユーザがあれば、User情報を返す
+  # @return[User] ログイン中のユーザ
   def current_user
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
   end
 
-  # ログイン中のユーザでなければ、ログイン画面にリダイレクトさせる
+  # ログイン中のユーザでなければ、ログイン画面にリダイレクト
   def login_required
     redirect_to login_url unless current_user
   end

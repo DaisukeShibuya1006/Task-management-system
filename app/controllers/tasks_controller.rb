@@ -1,10 +1,14 @@
 class TasksController < ApplicationController
-  # title_searchでタスクをタイトルで検索する
-  # @return[Task] タイトル検索の結果
-  # status_searchでタスクをステータスで検索する
-  # @return[Task] ステータス検索の結果
-  # タスクを優先度でソートする
-  # 優先度が未選択なら、作成日時で降順させる
+  # カレントユーザのタスクをタイトルで検索
+  # 検索と一致したタイトルがある場合は該当するタスクを取得し、なければ全件取得
+  # @return[Task] タイトル検索結果
+
+  # タイトル検索結果のタスクをステータスで検索し、該当するステータスのタスクだけを取得
+  # ステータスが未選択なら、タイトル検索の結果後のタスクをそのまま取得
+  # @return[Task] ステータス検索結果
+
+  # ステータス検索結果のタスクを優先度の高さでソート
+  # 優先度が未選択なら、作成日時で降順
   # @return[Task] 優先順位のソート結果
   def index
     title_search
@@ -12,26 +16,26 @@ class TasksController < ApplicationController
     tasks_sort
   end
 
-  # idに対応するタスクを取得する
-  # @return[Task] idに対応するタスクを取得
+  # idに対応するタスクを取得
+  # @return[Task] idに対応するタスク
   def show
     @task = Task.find(params[:id])
   end
 
-  # タスクのインスタンスを生成する
-  # @return[Task] タスクのインスタンスを生成
+  # タスクのインスタンスを生成
+  # @return[Task] タスクのインスタンス
   def new
     @task = Task.new
   end
 
-  # idに対応するタスクを取得する
-  # @return[Task] idに対応するタスクを取得
+  # idに対応するタスクを取得
+  # @return[Task] idに対応するタスク
   def edit
     @task = Task.find(params[:id])
   end
 
-  # ログイン中のユーザがタスクを保存する
-  # @return[Task] ログイン中のユーザがタスクを保存
+  # カレントユーザがタスクを作成
+  # @return[Task] カレントユーザの作成したタスク
   def create
     @task = current_user.tasks.new(task_params)
     if @task.save
@@ -40,12 +44,11 @@ class TasksController < ApplicationController
     else
       flash.now[:danger] = 'タスクの登録が失敗しました。'
       render 'new'
-      pp @task
     end
   end
 
-  # idに対応するタスクを取得する
-  # @return[Task] タスクの更新
+  # idに対応するタスクを取得
+  # @return[Task] 更新したタスク
   def update
     @task = Task.find(params[:id])
     if @task.update(task_params)
@@ -57,8 +60,8 @@ class TasksController < ApplicationController
     end
   end
 
-  # idに対応するタスクを取得する
-  # @return[Task] タスクの削除
+  # idに対応するタスクを取得
+  # @return[Task] 削除したタスク
   def destroy
     @task = Task.find(params[:id])
     if @task.destroy
@@ -72,31 +75,33 @@ class TasksController < ApplicationController
 
   private
 
-  # 許可されたカラムのみ通過させる
-  # @param title[ActionController::Parameters] 許可された'title'を通過
-  # @param text[ActionController::Parameters] 許可された'text'を通過
-  # @param deadline[ActionController::Parameters] 許可された'deadline'を通過
-  # @param status[ActionController::Parameters] 許可された'status'を通過
-  # @param priority[ActionController::Parameters] 許可された'priorty'を通過
+  # 許可されたカラムのみ通過
+  # titleが入力されているか確認
+  # titleが未入力の場合は作成失敗
+  # @param title[String] 許可されたtitle
+  # @param text[String] 許可されたtext
+  # @param deadline[DateTime] 許可されたdeadline
+  # @param status[Integer] 許可されたstatus
+  # @param priority[Integer] 許可されたpriorty
   def task_params
-    params.require(:task).permit(:title, :text, :deadline, :status, :priority)
+    task_params = params.require(:task).permit(:title, :text, :deadline, :status, :priority)
   end
 
-  # タスクをタイトルで検索する
+  # タスクをタイトルで検索
   # @return[Task] タイトル検索の結果
   def title_search
     @tasks = params[:title].present? ? Task.where('title LIKE ?', "%#{params[:title]}%") : current_user.tasks
     @tasks = @tasks.page(params[:page]).per(5)
   end
 
-  # タスクをステータスで検索する
+  # タスクをステータスで検索
   # @return[Task] ステータス検索の結果
   def status_search
     @tasks = @tasks.where('status = ?', params[:status]) if params[:status].present?
   end
 
-  # タスクを優先度でソートする
-  # 優先度が未選択なら、作成日時で降順させる
+  # タスクを優先度でソート
+  # 優先度が未選択なら、作成日時で降順
   # @return[Task] 優先順位のソート結果
   def tasks_sort
     @tasks = case params[:keyword]
