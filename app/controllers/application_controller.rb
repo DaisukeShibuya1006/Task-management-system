@@ -4,13 +4,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   before_action :login_required
 
-
-  # sessionに一致するユーザを返す
-  # @sessionにユーザがない場合や一致するUserがない場合はnilを返し、一致するユーザがあればUser情報を返す
-  # @return[User] ログイン中のユーザ
-  # @return[nil] 一致するユーザがいない場合はnilを返す
   private
 
+  # sessionに一致するユーザを返す
+  # sessionにユーザがない場合や一致するUserがない場合はnilを返し、一致するユーザがあればUser情報を返す
+  # @return[User] ログイン中のユーザを返す
+  # @return[nil] 一致するユーザがいない場合はnilを返す
   def current_user
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
   end
