@@ -1,8 +1,5 @@
 class TasksController < ApplicationController
-  # タイトル検索
-  # ステータス検索
-  # タスクのソート
-  # @return[Task]
+  # @return[Task]タスクの検索結果
   def index
     title_search
     status_search
@@ -28,7 +25,6 @@ class TasksController < ApplicationController
   end
 
   # カレントユーザがタスクを作成
-  # @return[Task] カレントユーザの作成したタスク
   def create
     @task = current_user.tasks.new(task_params)
     if @task.save
@@ -41,7 +37,7 @@ class TasksController < ApplicationController
   end
 
   # idに対応するタスクを取得
-  # @return[Task] 更新したタスク
+  # タスクの更新
   def update
     @task = Task.find(params[:id])
     if @task.update(task_params)
@@ -54,7 +50,7 @@ class TasksController < ApplicationController
   end
 
   # idに対応するタスクを取得
-  # @return[Task] 削除したタスク
+  # タスクの削除
   def destroy
     @task = Task.find(params[:id])
     if @task.destroy
@@ -68,14 +64,8 @@ class TasksController < ApplicationController
 
   private
 
-  # 許可されたカラムのみ通過
-  # titleが入力されているか確認
-  # titleが未入力の場合は作成失敗
-  # @param title[String] 許可されたtitle
-  # @param text[String] 許可されたtext
-  # @param deadline[DateTime] 許可されたdeadline
-  # @param status[Integer] 許可されたstatus
-  # @param priority[Integer] 許可されたpriorty
+  # taskのパラメータが正しいかを確認
+  # @return[ActionController::Parameters] 正しいパラメータ
   def task_params
     params.require(:task).permit(:title, :text, :deadline, :status, :priority)
   end
