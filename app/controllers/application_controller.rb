@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   private
 
   # sessionに一致するユーザを確認
-  # ユーザが確認できない場合はUserモデルからidを抽出
+  # ユーザが確認できない場合はUser.idと一致するユーザを抽出
   # @return[User] ログイン中のユーザ
   def current_user
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
@@ -18,10 +18,4 @@ class ApplicationController < ActionController::Base
   def login_required
     redirect_to login_url unless current_user
   end
-end
-
-if session[:user_id]
-
-else
-  @current_user = User.find_by(id: session[:user_id])
 end
