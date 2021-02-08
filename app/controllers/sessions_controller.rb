@@ -9,8 +9,6 @@ class SessionsController < ApplicationController
   # emailがUserモデル内に存在するかを確認
   # emailとpasswordが一致しているかを確認
   # sessionにuser.idを格納
-  # @return[User]ログイン
-
   def create
     @user = User.find_by(email: session_params[:email])
     if @user&.authenticate(session_params[:password])
@@ -33,9 +31,8 @@ class SessionsController < ApplicationController
 
   private
 
-  # 許可されたパラメータのみ通過
-  # @param email[String] 許可されたemail
-  # @param password[String] 許可されたpassword
+  # sessionのパラメータが正しいかを確認
+  # @return[ActionController::Parameters] 正しいパラメータ
   def session_params
     params.require(:session).permit(:email, :password)
   end
