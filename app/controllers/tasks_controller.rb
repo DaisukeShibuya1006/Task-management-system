@@ -77,7 +77,7 @@ class TasksController < ApplicationController
   # @param status[Integer] 許可されたstatus
   # @param priority[Integer] 許可されたpriorty
   def task_params
-    task_params = params.require(:task).permit(:title, :text, :deadline, :status, :priority)
+    params.require(:task).permit(:title, :text, :deadline, :status, :priority)
   end
 
   # タスクをタイトルで検索

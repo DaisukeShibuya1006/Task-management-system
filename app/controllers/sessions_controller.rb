@@ -6,10 +6,9 @@ class SessionsController < ApplicationController
   def new; end
 
 
-  # 入力されたemailがUserモデル内のemailと一致するかを確認
-  # emailが一致する場合は、passwordが一致するかを判定
-  # emailが一致しない場合は、ログイン失敗
-  # emailとpasswordが一致する場合はsessionにuser.idを格納
+  # emailがUserモデル内に存在するかを確認
+  # emailとpasswordが一致しているかを確認
+  # sessionにuser.idを格納
   # @return[User]ログイン
 
   def create
@@ -24,8 +23,8 @@ class SessionsController < ApplicationController
     end
   end
 
-  # 全てのセッション情報を削除
   # ログアウト
+  # 全てのセッション情報を削除
   def destroy
     reset_session
     flash[:success] = 'ログアウトしました'
@@ -38,7 +37,7 @@ class SessionsController < ApplicationController
   # @param email[String] 許可されたemail
   # @param password[String] 許可されたpassword
   def session_params
-    session = params.require(:session).permit(:email, :password)
+    params.require(:session).permit(:email, :password)
   end
 end
 
