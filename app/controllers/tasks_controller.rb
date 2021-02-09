@@ -6,8 +6,8 @@ class TasksController < ApplicationController
     tasks_sort
   end
 
-  # idに対応するタスクを取得
-  # @return[Task] idに対応するタスク
+  # idに対応したタスクを取得
+  # @return[Task] idに対応したタスク
   def show
     @task = Task.find(params[:id])
   end
@@ -18,7 +18,7 @@ class TasksController < ApplicationController
     @task = Task.new
   end
 
-  # idに対応するタスクを取得
+  # idに対応したタスクを取得
   # @return[Task] idに対応するタスク
   def edit
     @task = Task.find(params[:id])
@@ -36,7 +36,7 @@ class TasksController < ApplicationController
     end
   end
 
-  # idに対応するタスクを取得
+  # idに対応したタスクを取得
   # タスクの更新
   def update
     @task = Task.find(params[:id])
@@ -49,7 +49,7 @@ class TasksController < ApplicationController
     end
   end
 
-  # idに対応するタスクを取得
+  # idに対応したタスクを取得
   # タスクの削除
   def destroy
     @task = Task.find(params[:id])
@@ -64,8 +64,8 @@ class TasksController < ApplicationController
 
   private
 
-  # taskのパラメータが正しいかを確認
-  # @return[ActionController::Parameters] 正しいパラメータ
+  # パラメータの認証
+  # @return[ActionController::Parameters] 許可されたパラメータ
   def task_params
     params.require(:task).permit(:title, :text, :deadline, :status, :priority)
   end
