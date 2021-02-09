@@ -6,9 +6,9 @@ class ApplicationController < ActionController::Base
 
   private
 
-  # sessionに一致するユーザを確認
-  # ユーザが確認できない場合はUser.idと一致するユーザを抽出
-  # @return[User] ログイン中のユーザ
+  # 登録されている自身のユーザ情報を取得
+  # ユーザが確認できない場合はUser.idとセッションが持っているuser_idに一致するユーザを抽出
+  # @return[User] 自身のユーザ情報
   def current_user
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
   end
