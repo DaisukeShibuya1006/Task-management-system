@@ -84,9 +84,9 @@ class TasksController < ApplicationController
     @tasks = @tasks.where('status = ?', params[:status]) if params[:status].present?
   end
 
-  # タスクを優先度でソート
+  # タスクをソート
   # 優先度が未選択なら、作成日時で降順
-  # @return [Array<Task>] 優先順位のソート結果
+  # @return [Array<Task>] タスクのソート結果
   def tasks_sort
     @tasks = case params[:keyword]
              when 'high'
