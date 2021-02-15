@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+  # タスクの検索
   # @return[Task]タスクの検索結果
   def index
     title_search
@@ -12,7 +13,6 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end
 
-  # タスクのインスタンスを生成
   # @return[Task] タスクのインスタンス
   def new
     @task = Task.new
@@ -64,7 +64,7 @@ class TasksController < ApplicationController
 
   private
 
-  # パラメータの認証
+  # パラメータの許可
   # @return[ActionController::Parameters] 許可されたパラメータ
   def task_params
     params.require(:task).permit(:title, :text, :deadline, :status, :priority)
