@@ -74,7 +74,7 @@ class TasksController < ApplicationController
   # タスクをタイトルで検索
   # @return [Array<Task>] タイトル検索の結果
   def title_search
-    @tasks = params[:title].present? ? Task.where('title LIKE ?', "%#{params[:title]}%") : current_user.tasks
+    @tasks = params[:title].present? ? current_user.tasks.where('title LIKE ?', "%#{params[:title]}%") : current_user.tasks
     @tasks = @tasks.page(params[:page]).per(5)
   end
 
