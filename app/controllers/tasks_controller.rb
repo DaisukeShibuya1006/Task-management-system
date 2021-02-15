@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   # タスクの検索結果の一覧を取得
-  # @return [Array]
+  # @return [Array<tasks>]
   def index
     title_search
     status_search
@@ -68,25 +68,25 @@ class TasksController < ApplicationController
   # パラメータの許可
   # @return [ActionController::Parameters] 許可されたパラメータ
   def task_params
-    params.permit(:title, :text, :deadline, :status, :priority)
+    params.require(:task).permit(:title, :text, :deadline, :status, :priority)
   end
 
   # タスクをタイトルで検索
-  # @return [Task]
+  # @return [Array<tasks>]
   def title_search
     @tasks = params[:title].present? ? Task.where('title LIKE ?', "%#{params[:title]}%") : current_user.tasks
     @tasks = @tasks.page(params[:page]).per(5)
   end
 
   # タスクをステータスで検索
-  # @return [Task]
+  # @return [Array<tasks>]
   def status_search
     @tasks = @tasks.where('status = ?', params[:status]) if params[:status].present?
   end
 
   # タスクを優先度でソート
   # 優先度が未選択なら、作成日時で降順
-  # @return [Task]
+  # @return [Array<tasks>]
   def tasks_sort
     @tasks = case params[:keyword]
              when 'high'
