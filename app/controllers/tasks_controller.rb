@@ -8,23 +8,24 @@ class TasksController < ApplicationController
   end
 
   # idに対応したタスクを取得
-  # @return[Task] idに対応したタスク
+  # @return [Task]
   def show
     @task = Task.find(params[:id])
   end
 
-  # @return[Task] タスクのインスタンス
+  # タスクのインスタンスを取得
+  # @return [Task]
   def new
     @task = Task.new
   end
 
   # idに対応したタスクを取得
-  # @return[Task] idに対応するタスク
+  # @return [Task]
   def edit
     @task = Task.find(params[:id])
   end
 
-  # カレントユーザがタスクを作成
+  # 自身のuser.idと紐づくタスクを作成
   def create
     @task = current_user.tasks.new(task_params)
     if @task.save
@@ -65,27 +66,27 @@ class TasksController < ApplicationController
   private
 
   # パラメータの許可
-  # @return[ActionController::Parameters] 許可されたパラメータ
+  # @return [ActionController::Parameters] 許可されたパラメータ
   def task_params
-    params.require(:task).permit(:title, :text, :deadline, :status, :priority)
+    params.permit(:title, :text, :deadline, :status, :priority)
   end
 
   # タスクをタイトルで検索
-  # @return[Task] タイトル検索の結果
+  # @return [Task]
   def title_search
     @tasks = params[:title].present? ? Task.where('title LIKE ?', "%#{params[:title]}%") : current_user.tasks
     @tasks = @tasks.page(params[:page]).per(5)
   end
 
   # タスクをステータスで検索
-  # @return[Task] ステータス検索の結果
+  # @return [Task]
   def status_search
     @tasks = @tasks.where('status = ?', params[:status]) if params[:status].present?
   end
 
   # タスクを優先度でソート
   # 優先度が未選択なら、作成日時で降順
-  # @return[Task] 優先順位のソート結果
+  # @return [Task]
   def tasks_sort
     @tasks = case params[:keyword]
              when 'high'
