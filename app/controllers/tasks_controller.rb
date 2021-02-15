@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
-  # タスクの検索
-  # @return[Task]タスクの検索結果
+  # タスクの検索結果の一覧を取得
+  # @return [Array]
   def index
     title_search
     status_search

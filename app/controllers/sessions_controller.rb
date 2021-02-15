@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
   private
 
   # パラメータの許可
-  # @return[ActionController::Parameters] 許可されたパラメータ
+  # @return [ActionController::Parameters] 許可されたパラメータ
   def session_params
     params.require(:session).permit(:email, :password)
   end
