@@ -5,7 +5,6 @@ class SessionsController < ApplicationController
 
   def new; end
 
-
   # ログイン
   # emailとpasswordが一致する場合、sessionにuser.idを格納
   def create
