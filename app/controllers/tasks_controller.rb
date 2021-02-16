@@ -2,9 +2,9 @@ class TasksController < ApplicationController
   # タスクの検索結果の一覧を取得
   # @return [Array<Task>] タスクの検索結果
   def index
-    title_search
-    status_search
-    tasks_sort
+    search_title
+    search_status
+    sort_tasks
   end
 
   # idに対応したタスクを取得
@@ -73,21 +73,21 @@ class TasksController < ApplicationController
 
   # タスクをタイトルで検索
   # @return [Array<Task>] タイトル検索の結果
-  def title_search
+  def search_title
     @tasks = params[:title].present? ? current_user.tasks.where('title LIKE ?', "%#{params[:title]}%") : current_user.tasks
     @tasks = @tasks.page(params[:page]).per(5)
   end
 
   # タスクをステータスで検索
   # @return [Array<Task>] ステータス検索の結果
-  def status_search
+  def search_status
     @tasks = @tasks.where('status = ?', params[:status]) if params[:status].present?
   end
 
   # タスクをソート
   # 優先度が未選択なら、作成日時で降順
   # @return [Array<Task>] タスクのソート結果
-  def tasks_sort
+  def sort_tasks
     @tasks = case params[:keyword]
              when 'high'
                @tasks.order('priority')
