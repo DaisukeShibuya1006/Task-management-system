@@ -1,10 +1,10 @@
 <div class="container text-center">
    <table class="table table-hover">
+      <h1>管理画面</h1>
       <thead>
          <tr>
             <th>名前</th>
             <th>タスク数</th>
-            <th>管理者権限</th>
          </tr>
       </thead>
       <tbody>
@@ -12,12 +12,10 @@
             <tr scope="row">
                <td><%= link_to user.name, admin_user_path(user.id) %></td>
                <td><%= user.tasks.size %></td>
-               <td><%= user.admin? ? 'あり' : 'なし' %></td>
-               <td><%= link_to "編集", edit_admin_user_path(user) %></td>
-               <td><%= link_to "削除", admin_user_path(user.id), method: :delete, data: {confirm: "削除しますか？"} %></td>
             </tr>
          <% end %>
       </tbody>
    </table>
    <%= paginate @users %>
+   <%= link_to "ユーザ作成", new_admin_user_path ,class: 'btn btn-secondary' %>
 </div>
