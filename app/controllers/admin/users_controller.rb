@@ -59,11 +59,10 @@ class Admin::UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.destroy
       flash[:success] = 'ユーザーを削除しました。'
-      redirect_to admin_users_path
     else
-      flash.now[:danger] = 'ユーザーを削除できませんでした。'
-      redirect_to admin_users_path
+      flash[:danger] = 'ユーザーを削除できませんでした。'
     end
+    redirect_to admin_users_path
   end
 
   private
