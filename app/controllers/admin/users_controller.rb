@@ -69,6 +69,6 @@ class Admin::UsersController < ApplicationController
   # パラメータの許可
   # return [ActionController::Parameters] 許可されたパラメータ
   def user_params
-    params.require(:user).permit(:name, :email, :admin, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :is_admin, :password, :password_confirmation)
   end
 end
