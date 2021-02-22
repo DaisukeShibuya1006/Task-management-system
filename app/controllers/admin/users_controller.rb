@@ -16,7 +16,7 @@ class Admin::UsersController < ApplicationController
     @tasks = @user.tasks.page(params[:page]).per(5)
   end
 
-  # ユーザのインスタンスを取得
+  # ユーザ新規作成画面を取得
   # @return [User]
   def new
     @user = User.new
