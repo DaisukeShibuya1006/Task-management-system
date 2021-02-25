@@ -8,7 +8,7 @@ class Admin::UsersController < ApplicationController
     @users = User.includes(:tasks).page(params[:page]).per(10)
   end
 
-  # idに対応したユーザを取得
+  # ユーザ詳細画面を取得
   # user.idと紐づいたタスクを取得
   # @return [Array<Task>]
   def show
@@ -22,7 +22,7 @@ class Admin::UsersController < ApplicationController
     @user = User.new
   end
 
-  # idに対応したユーザを取得
+  # ユーザ編集画面を取得
   # @return [User]
   def edit
     @user = User.find(params[:id])
