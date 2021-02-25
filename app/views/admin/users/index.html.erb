@@ -1,0 +1,21 @@
+<div class="container text-center">
+   <table class="table table-hover">
+      <h1>管理画面</h1>
+      <thead>
+         <tr>
+            <th>名前</th>
+            <th>タスク数</th>
+         </tr>
+      </thead>
+      <tbody>
+         <% @users.each do |user| %>
+            <tr scope="row">
+               <td><%= link_to user.name, admin_user_path(user.id) %></td>
+               <td><%= user.tasks.size %></td>
+            </tr>
+         <% end %>
+      </tbody>
+   </table>
+   <%= paginate @users %>
+   <%= link_to "ユーザ作成", new_admin_user_path ,class: 'btn btn-secondary' %>
+</div>

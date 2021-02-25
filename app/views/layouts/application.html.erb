@@ -13,6 +13,7 @@
     <div class="top">
       <% if current_user %>
         <%= link_to "タスク一覧", index_path %>
+        <%= link_to "管理画面", admin_users_path %>
         <%= link_to "ログアウト", logout_path, method: :delete, data: {confirm: "ログアウトしますか？"} %>
       <% end %>
     </div>
