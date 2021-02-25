@@ -2,8 +2,8 @@ class Admin::UsersController < ApplicationController
   protect_from_forgery
   skip_before_action :login_required, only:[:new, :create]
 
-  # ユーザの一覧を取得
-  # @return [Array<User>] ユーザの一覧
+  # ユーザ一覧を取得
+  # @return [Array<User>] ユーザ一覧
   def index
     @users = User.includes(:tasks).page(params[:page]).per(10)
   end
@@ -53,7 +53,7 @@ class Admin::UsersController < ApplicationController
     end
   end
 
-  # ユーザの削除
+  # ユーザ削除
   def destroy
     @user = User.find(params[:id])
     if @user.destroy
