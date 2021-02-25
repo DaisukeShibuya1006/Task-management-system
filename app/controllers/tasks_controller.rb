@@ -7,20 +7,20 @@ class TasksController < ApplicationController
     sort_tasks
   end
 
-  # idに対応したタスクを取得
-  # @return [Task] idに対応したタスク
+  # タスクの詳細画面を取得
+  # @return [Task]
   def show
     @task = Task.find(params[:id])
   end
 
-  # タスクのインスタンスを取得
+  # タスクの新規作成画面を取得
   # @return [Task]
   def new
     @task = Task.new
   end
 
-  # idに対応したタスクを取得
-  # @return [Task] idに対応したタスク
+  # タスクの編集画面を取得
+  # @return [Task]
   def edit
     @task = Task.find(params[:id])
   end
@@ -37,7 +37,7 @@ class TasksController < ApplicationController
     end
   end
 
-  # idに対応したタスクを取得
+
   # タスクの更新
   def update
     @task = Task.find(params[:id])
@@ -50,7 +50,7 @@ class TasksController < ApplicationController
     end
   end
 
-  # idに対応したタスクを取得
+
   # タスクの削除
   def destroy
     @task = Task.find(params[:id])

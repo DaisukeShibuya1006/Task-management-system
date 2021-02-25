@@ -2,13 +2,13 @@ class Admin::UsersController < ApplicationController
   protect_from_forgery
   skip_before_action :login_required, only:[:new, :create]
 
-  # ユーザの一覧を取得
-  # @return [Array<User>] ユーザの一覧
+  # ユーザ一覧を取得
+  # @return [Array<User>] ユーザ一覧
   def index
     @users = User.includes(:tasks).page(params[:page]).per(10)
   end
 
-  # idに対応したユーザを取得
+  # ユーザ詳細画面を取得
   # user.idと紐づいたタスクを取得
   # @return [Array<Task>]
   def show
@@ -16,13 +16,13 @@ class Admin::UsersController < ApplicationController
     @tasks = @user.tasks.page(params[:page]).per(5)
   end
 
-  # ユーザのインスタンスを取得
+  # ユーザ新規作成画面を取得
   # @return [User]
   def new
     @user = User.new
   end
 
-  # idに対応したユーザを取得
+  # ユーザ編集画面を取得
   # @return [User]
   def edit
     @user = User.find(params[:id])
@@ -53,7 +53,7 @@ class Admin::UsersController < ApplicationController
     end
   end
 
-  # ユーザの削除
+  # ユーザ削除
   def destroy
     @user = User.find(params[:id])
     if @user.destroy
@@ -69,6 +69,6 @@ class Admin::UsersController < ApplicationController
   # パラメータの許可
   # return [ActionController::Parameters] 許可されたパラメータ
   def user_params
-    params.require(:user).permit(:name, :email, :admin, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :is_admin, :password, :password_confirmation)
   end
 end

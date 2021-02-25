@@ -9,7 +9,7 @@
       <tbody>
             <tr scope="row">
                <td><%= @user.name %></td>
-               <td><%= @user.admin? ? 'あり' : 'なし' %></td>
+               <td><%= @user.is_admin? ? 'あり' : 'なし' %></td>
                <td><%= link_to "編集", edit_admin_user_path(@user) %></td>
                <td><%= link_to "削除", admin_user_path(@user), method: :delete, data: {confirm: "削除しますか？"} %></td>
             </tr>
