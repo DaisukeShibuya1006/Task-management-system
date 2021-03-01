@@ -1,6 +1,6 @@
 class Admin::UsersController < ApplicationController
   protect_from_forgery
-  skip_before_action :login_required, only:[:new, :create]
+  before_action :require_admin
 
   # ユーザ一覧を取得
   # @return [Array<User>] ユーザ一覧
@@ -44,7 +44,7 @@ class Admin::UsersController < ApplicationController
   # ユーザ情報の更新
   def update
     @user = User.find(params[:id])
-    if @user.update(user_params)
+    if @user.update!(user_params)
       flash[:success] = 'ユーザー情報を更新しました。'
       redirect_to admin_user_url(@user)
     else
@@ -56,10 +56,11 @@ class Admin::UsersController < ApplicationController
   # ユーザ削除
   def destroy
     @user = User.find(params[:id])
-    if @user.destroy
+    unless @user.id == current_user.id
+      @user.destroy!
       flash[:success] = 'ユーザーを削除しました。'
     else
-      flash[:danger] = 'ユーザーを削除できませんでした。'
+      flash[:danger] = '自分自身を削除することはできません。'
     end
     redirect_to admin_users_path
   end
@@ -70,5 +71,10 @@ class Admin::UsersController < ApplicationController
   # return [ActionController::Parameters] 許可されたパラメータ
   def user_params
     params.require(:user).permit(:name, :email, :is_admin, :password, :password_confirmation)
+  end
+
+  # 管理者権限がないとき、例外処理を発生
+  def require_admin
+    raise Forbidden unless current_user.is_admin?
   end
 end
