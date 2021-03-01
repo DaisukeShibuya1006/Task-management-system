@@ -11,7 +11,8 @@ class User < ApplicationRecord
 
   # 管理ユーザ削除の制限
   def not_delete_admin_last
-    return unless self.is_admin?
+    return unless is_admin?
+
     throw :abort if User.where(is_admin: true).size == 1
   end
 end

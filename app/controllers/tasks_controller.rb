@@ -37,7 +37,6 @@ class TasksController < ApplicationController
     end
   end
 
-
   # タスクの更新
   def update
     @task = Task.find(params[:id])
@@ -49,7 +48,6 @@ class TasksController < ApplicationController
       render 'edit'
     end
   end
-
 
   # タスクの削除
   def destroy
