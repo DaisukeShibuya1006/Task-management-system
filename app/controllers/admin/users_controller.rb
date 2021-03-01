@@ -44,7 +44,7 @@ class Admin::UsersController < ApplicationController
   # ユーザ情報の更新
   def update
     @user = User.find(params[:id])
-    if @user.update!(user_params)
+    if @user.update(user_params)
       flash[:success] = 'ユーザー情報を更新しました。'
       redirect_to admin_user_url(@user)
     else
