@@ -6,7 +6,7 @@ describe 'Task' do
       FactoryBot.create(:task, title: 'タイトルA', text: '詳細A')
     end
 
-    it 'to display list of tasks' do
+    it 'returns tasks sorted in descending order of creation date' do
       visit tasks_path
       @tasks = Task.all.order(created_at: :desc)
     end
