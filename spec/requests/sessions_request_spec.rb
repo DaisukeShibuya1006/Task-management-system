@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe 'Sessions', type: :request do
   describe 'GET /login' do
-    context 'Accessing to login page' do
+    context 'when accessing to login page' do
       it 'returns http success status code' do
         get '/login'
         expect(response).to have_http_status '200'
       end
     end
 
-    context 'Cannot accesse to login page' do
+    context 'when cannot accesse to login page' do
       it 'returns a some type of error status code' do
         get '/not_login'
         expect(response).to have_http_status '404'
@@ -22,14 +22,14 @@ RSpec.describe 'Sessions', type: :request do
       FactoryBot.create(:user)
     end
 
-    context 'Correct input name and password' do
+    context 'when correct input name and password' do
       it 'Login success' do
         post '/login', params: { session: { email: 'user_email@jp', password: 'user_password' } }
         expect(response).to have_http_status '302'
       end
     end
 
-    context 'Incorrect input name and password' do
+    context 'when incorrect input name and password' do
       it 'Login failure' do
         post '/login', params: { session: { email: '', password: '' } }
         expect(response).to have_http_status '401'

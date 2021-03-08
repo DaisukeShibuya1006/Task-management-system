@@ -4,6 +4,11 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   before_action :login_required
 
+  class Forbidden < ActionController::ActionControllerError
+  end
+
+  rescue_from Forbidden, with: :rescue403
+
   private
 
   # 登録されている自身のユーザ情報を取得
@@ -17,5 +22,10 @@ class ApplicationController < ActionController::Base
   # 未ログインならば、ログイン画面に移行
   def login_required
     redirect_to login_url unless current_user
+  end
+
+  # アクセス制限画面を取得
+  def rescue403
+    render file: 'public/403', status: 403
   end
 end
