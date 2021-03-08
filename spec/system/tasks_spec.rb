@@ -3,10 +3,11 @@ require 'rails_helper'
 describe 'Task' do
   describe 'create task' do
     before do
-      @task = FactoryBot.create(:task, title: 'タイトルA', text: '詳細A')
+      FactoryBot.create(:task, title: 'タイトルA', text: '詳細A')
     end
 
-    it 'create task date and time' do
+    it 'descending the task creation date and time' do
+      visit tasks_path
       @tasks = Task.all.order(created_at: :desc)
     end
   end
