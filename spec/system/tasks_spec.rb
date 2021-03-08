@@ -1,12 +1,13 @@
 require 'rails_helper'
 
-describe 'タスク一覧' do
-  describe 'タスクが作成されている。' do
+describe 'Task' do
+  describe 'create task' do
     before do
-      @task = FactoryBot.create(:task, title: 'タイトルA', text: '詳細A')
+      FactoryBot.create(:task, title: 'タイトルA', text: '詳細A')
     end
 
-    it 'タスク作成日時の降順' do
+    it 'returns tasks sorted in descending order of creation date' do
+      visit tasks_path
       @tasks = Task.all.order(created_at: :desc)
     end
   end

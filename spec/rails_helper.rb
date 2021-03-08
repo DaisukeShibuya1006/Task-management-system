@@ -30,7 +30,7 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
-Rails.logger = Logger.new(STDOUT)
+Rails.logger = Logger.new($stdout)
 # ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 RSpec.configure do |config|
