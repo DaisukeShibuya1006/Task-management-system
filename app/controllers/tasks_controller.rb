@@ -4,6 +4,7 @@ class TasksController < ApplicationController
   def index
     search_title
     search_status
+    search_label
     sort_tasks
   end
 
@@ -66,13 +67,13 @@ class TasksController < ApplicationController
   # パラメータの許可
   # @return [ActionController::Parameters] 許可されたパラメータ
   def task_params
-    params.require(:task).permit(:title, :text, :deadline, :status, :priority)
+    params.require(:task).permit(:title, :text, :deadline, :status, :priority, label_ids: [])
   end
 
   # タスクをタイトルで検索
   # @return [Array<Task>] タイトル検索の結果
   def search_title
-    @tasks = params[:title].present? ? current_user.tasks.where('title LIKE ?', "%#{params[:title]}%") : current_user.tasks
+    @tasks = params[:title].present? ? current_user.tasks.preload(:labels).where('title LIKE ?', "%#{params[:title]}%") : current_user.tasks.preload(:labels)
     @tasks = @tasks.page(params[:page]).per(5)
   end
 
@@ -80,6 +81,12 @@ class TasksController < ApplicationController
   # @return [Array<Task>] ステータス検索の結果
   def search_status
     @tasks = @tasks.where('status = ?', params[:status]) if params[:status].present?
+  end
+
+  # タスクをラベルで検索
+  # @return [Array<Task>] ラベル検索の結果
+  def search_label
+    @tasks = @tasks.joins(:labels).where(labels: { id: params[:label_id] }) if params[:label_id].present?
   end
 
   # タスクをソート

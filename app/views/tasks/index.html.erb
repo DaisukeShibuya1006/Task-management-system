@@ -14,6 +14,9 @@
             <%= f.label :優先度 %>
             <%= f.select :keyword, options_for_select([['未選択', ''],['高', 'high'], ['低', 'low']], selected: params[:keyword]), {}, {class: "priority_select"} %>
 
+            <%= f.label :ラベル %>
+            <%= f.select :label_id, options_for_select([['未選択', ''],['仕事', '1'],['趣味', '2'],['その他', '3']], selected: params[:label_id]) %>
+
             <%= f.submit :検索, class: 'btn btn-primary' %>
          <% end %>
       </div>
@@ -29,6 +32,7 @@
             <th>期限</th>
             <th>進捗</th>
             <th>優先度</th>
+            <th>ラベル</th>
          </tr>
       </thead>
       <tbody>
@@ -40,6 +44,11 @@
                <td><%= task.deadline&.strftime('%Y/%m/%d')  %></td>
                <td><%= task.status_i18n %></td>
                <td><%= task.priority_i18n %></td>
+               <td>
+                  <% task.labels.each do |label| %>
+                     <%= label.name %>
+                  <% end %>
+               </td>
                <td><%= link_to "削除", task_path(task.id), method: :delete, data: {confirm: "削除しますか？"} %></td>
             </tr>
          <% end %>
