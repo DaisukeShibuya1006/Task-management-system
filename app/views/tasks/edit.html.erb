@@ -22,7 +22,8 @@
                 <%= f.label :優先度 %>
                 <%= f.select :priority, Task.priorities.keys.map {|k| [Task.priorities_i18n[k],k]},{}, {class: "form-control"} %><br>
             </div>
-            <div class="col-4">
+            <div class="col-12 checkbox">
+                <%= f.label :ラベル %><br>
                 <%= f.collection_check_boxes(:label_ids, Label.all, :id, :name) %>
             </div>
         </div>
